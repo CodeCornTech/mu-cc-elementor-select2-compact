@@ -1,6 +1,6 @@
 # 🧩 CodeCorn™ MU - Elementor Select2 Compact
 
-**Version:** 1.0.0  
+**Version:** 1.1.1
 **Author:** [CodeCorn™ Technology](https://github.com/CodeCornTech)  
 **License:** MIT
 
@@ -70,6 +70,76 @@ add_filter('cc_s2_debug', '__return_true');
 ```
 
 > Mostra versione/famiglia Select2 caricata e conferma che l’istanza isolata `$.fn.ccSelect2` sia correttamente attiva.
+
+---
+
+### 🧩 1️⃣ Estendere via `data-cc-s2-opts`
+
+```html
+<select id="cc_s2_region" data-cc-s2 data-cc-s2-opts='{"placeholder":"Scegli la regione","allowClear":true,"minimumResultsForSearch":5}'>
+    <option value="">Scegli...</option>
+    <option value="LAZ">Lazio</option>
+    <option value="TOS">Toscana</option>
+</select>
+```
+
+👉 automaticamente mergea con i `opts` base dentro `enhanceSelect()`
+(quindi non serve scrivere JS)
+
+---
+
+### 🧩 2️⃣ Estendere via `CC_S2.register(selector, opts)`
+
+```js
+window.CC_S2 &&
+    window.CC_S2.register('#cc_s2_speciale', {
+        placeholder: 'Tipo di intervento',
+        allowClear: true,
+        minimumResultsForSearch: 2,
+        dropdownAutoWidth: true,
+    });
+
+// Forza re-init se già in pagina
+window.CC_S2 && window.CC_S2.init(document);
+```
+
+Perfetto per attivare select fuori dai form Elementor o caricati via AJAX.
+
+---
+
+### 🧩 3️⃣ Hook globale “onInit” / “afterInit”
+
+nel caso vuoi “agganciare” callback globali (es. logging o custom UI)
+
+```js
+window.CC_S2.onInit = function ($el, opts) {
+    console.log('✅ CC_S2 init on:', $el.attr('id'), opts);
+};
+
+window.CC_S2.afterInit = function ($el) {
+    console.log('🎨 post-init styling:', $el.attr('id'));
+    // esempio: cambia colore bordo al volo
+    $el.next('.select2').find('.select2-selection').css('border-color', '#c1a269');
+};
+```
+
+E dentro `enhanceSelect(el)` basterebbe aggiungere:
+
+```js
+if (window.CC_S2.onInit) window.CC_S2.onInit($el, opts);
+try { $el.ccSelect2(opts); } catch(e){ ... }
+if (window.CC_S2.afterInit) window.CC_S2.afterInit($el);
+```
+
+---
+
+### 🧩 4️⃣ Full re-init per AJAX reload o modali
+
+```js
+document.addEventListener('ajaxComplete', function () {
+    window.CC_S2 && window.CC_S2.init(document);
+});
+```
 
 ---
 
