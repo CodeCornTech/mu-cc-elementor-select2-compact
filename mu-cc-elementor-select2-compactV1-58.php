@@ -13,8 +13,8 @@
  *  License:      MIT
  */
 
-!defined('ABSPATH') && exit;
-!defined('CC_S2_V') && define('CC_S2_V', '1.1.58');
+if (!defined('ABSPATH'))
+  exit;
 
 /** Paths vendors **/
 function cc_s2_rel_base()
@@ -29,7 +29,6 @@ function cc_s2_url($rel)
 /** Enqueue: PRE → VENDOR → POST (no-collision) + INIT + CSS */
 add_action('wp_enqueue_scripts', 'cc_s2_enqueue', 20);
 add_action('elementor/editor/after_enqueue_scripts', 'cc_s2_enqueue', 20);
-
 function cc_s2_enqueue()
 {
   // debug toggle: define('CC_S2_DEBUG', true) in wp-config.php OR add_filter('cc_s2_debug','__return_true');
