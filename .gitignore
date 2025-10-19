@@ -63,4 +63,7 @@ TODO*
 # ✅ End of file
 # ---------------------------------------------
 _STASH/**
-.DS_Store
+.DS_Store.DS_Store
+*.log
+node_modules/
+
