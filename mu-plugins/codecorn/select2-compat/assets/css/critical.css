@@ -1,0 +1,114 @@
+/* Anti-flicker : riserva spazio e nasconde i select target durante il boot */
+html.cc-s2-booting .elementor-form select[id^="form-field-cc_s2_"],
+html.cc-s2-booting .elementor-form .elementor-field-type-select select[name^="form_fields[cc_s2_"],
+html.cc-s2-booting select[data-cc-s2]:not([data-cc-s2="off"]),
+html.cc-s2-booting select.cc-s2 {
+  opacity: 0;
+  visibility: hidden;
+  display: block;
+  min-height: 40px;
+  line-height: 38px;
+  height: 40px;
+  border-radius: 4px;
+  transition: none !important;
+  background: linear-gradient(90deg, #2a2a2a 25%, #303030 37%, #2a2a2a 63%);
+  background-size: 400% 100%;
+  animation: cc-s2-shimmer 1.1s linear infinite;
+}
+@keyframes cc-s2-shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 0; }
+}
+
+/* Metriche coerenti con Select2 per evitare layout shift */
+.elementor-form .select2-container { width: 100% !important; }
+.elementor-form .select2-selection--single .select2-selection__rendered { line-height: 38px; }
+.elementor-form .select2-selection--single { height: 40px; }
+.elementor-form .select2-selection--multiple { min-height: 40px; }
+.elementor-form .select2-selection__choice { margin-top: 6px; }
+
+/* Fuori da Elementor : larghezza piena */
+.select2-container { width: 100% !important; }
+
+/* Nasconde caret Elementor per evitare doppie frecce */
+.select_container:after,
+.select_container:before,
+.select-caret-down-wrapper { display: none !important; }
+
+/* Disabilita transizioni durante il boot per invisibilità totale */
+html.cc-s2-booting * { transition: none !important; }
+/* =========================================================
+   CodeCorn™ Select2 Compat — Skin, Z-Index, Light/Dark
+   ========================================================= */
+
+/* Z-INDEX (evita overlay nei modali/popup) */
+.cc-s2-dropdown.select2-dropdown { z-index: 100011; }     /* > Elementor overlay */
+.elementor-popup-modal .select2-container { z-index: 100010; }
+.modal .select2-container { z-index: 1055; }              /* > Bootstrap modal (1050) */
+.cc-s2-dropdown.select2-dropdown { overscroll-behavior: contain; }
+
+/* LIGHT MODE (baseline) */
+.cc-s2-dropdown.select2-dropdown {
+  background: #fff;
+  border-color: #d0d7de;
+  color: #111;
+}
+.cc-s2-dropdown .select2-results__option--highlighted { background: #eef2ff; }
+.cc-s2-dropdown .select2-results__option { padding: 8px 10px; }
+.cc-s2-dropdown .select2-search__field { padding: 6px 8px; }
+
+/* DARK MODE — AUTOMATICO (OS) E MANUALE (.dark)
+   - default highlight: #A88F47
+*/
+@media (prefers-color-scheme: dark) {
+  .cc-s2-dropdown.select2-dropdown {
+    background: #111;
+    border-color: #2a2a2a;
+    color: #eee;
+  }
+  .cc-s2-dropdown .select2-results__option { color: #e6e6e6; }
+  .cc-s2-dropdown .select2-results__option--highlighted { background: #A88F47; }
+  .cc-s2-dropdown .select2-search__field {
+    background: #0b0b0b; color: #fff; border-color: #2a2a2a;
+  }
+}
+.dark .cc-s2-dropdown.select2-dropdown {
+  background: #111;
+  border-color: #2a2a2a;
+  color: #eee;
+}
+.dark .cc-s2-dropdown .select2-results__option { color: #e6e6e6; }
+.dark .cc-s2-dropdown .select2-results__option--highlighted { background: #A88F47; }
+.dark .cc-s2-dropdown .select2-search__field {
+  background: #0b0b0b; color: #fff; border-color: #2a2a2a;
+}
+
+/* DARK MODE — Elementor / ThemeREX (scheme_dark)
+   - override highlight: #1e293b
+*/
+.scheme_dark .cc-s2-dropdown.select2-dropdown,
+html.scheme_dark .cc-s2-dropdown.select2-dropdown,
+body.scheme_dark .cc-s2-dropdown.select2-dropdown,
+:root[class*="scheme_dark"] .cc-s2-dropdown.select2-dropdown {
+  background: #111;
+  border-color: #2a2a2a;
+  color: #e6e6e6;
+}
+.scheme_dark .cc-s2-dropdown .select2-results__option,
+html.scheme_dark .cc-s2-dropdown .select2-results__option,
+body.scheme_dark .cc-s2-dropdown .select2-results__option,
+:root[class*="scheme_dark"] .cc-s2-dropdown .select2-results__option {
+  color: #e6e6e6;
+}
+.scheme_dark .cc-s2-dropdown .select2-results__option--highlighted,
+html.scheme_dark .cc-s2-dropdown .select2-results__option--highlighted,
+body.scheme_dark .cc-s2-dropdown .select2-results__option--highlighted,
+:root[class*="scheme_dark"] .cc-s2-dropdown .select2-results__option--highlighted {
+  background: #A88F47;
+}
+.scheme_dark .cc-s2-dropdown .select2-search__field,
+html.scheme_dark .cc-s2-dropdown .select2-search__field,
+body.scheme_dark .cc-s2-dropdown .select2-search__field,
+:root[class*="scheme_dark"] .cc-s2-dropdown .select2-search__field {
+  background: #0b0b0b; color: #fff; border-color: #2a2a2a;
+}
