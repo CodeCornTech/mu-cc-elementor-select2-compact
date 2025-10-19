@@ -8,7 +8,7 @@
  *  ╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
  * 
  *  Plugin Name:  CodeCorn™ Select2 Compat
- *  Plugin URI:   https://github.com/CodeCornTech/cc-elementor-form-select2
+ *  Plugin URI:   https://github.com/CodeCornTech/mu-cc-select2-compat
  *  Description:  Select2 vendorizzata no-conflict per WordPress + Elementor . Init istantaneo , anti-flicker , hook popup / AJAX .
  *  Version:      1.1.70
  *  Author:       CodeCorn™ Technology
@@ -76,10 +76,9 @@ final class CC_S2
      */
     public static function head_critical(): void
     {
+
         // Flag CSS: aggiunge la classe cc-s2-booting al <html> senza script inline sporco
-        add_filter('language_attributes', function ($output) {
-            return "{$output} class=\"cc-s2-booting\"";
-        });
+        add_filter('language_attributes', fn($output) => "{$output} class=\"cc-s2-booting\"");
 
         // Preload vendor CSS e JS con wp_resource_hints (nativo)
         add_filter('wp_resource_hints', function ($urls, $relation_type) {
