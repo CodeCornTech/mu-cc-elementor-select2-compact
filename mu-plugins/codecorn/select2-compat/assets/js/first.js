@@ -1,17 +1,32 @@
 /*! CodeCorn™ Select2 Compat — FIRST (BEFORE VENDOR) */
-/*! Passive 'wheel' shim — MUST run BEFORE vendor */
+/*! Passive shim: wheel + touchstart + touchmove (STRICT) */
 // @ts-nocheck
-(function(){
+(function () {
   var ET = window.EventTarget && window.EventTarget.prototype;
   if (!ET || !ET.addEventListener) return;
-  if (ET.__ccS2WheelShimApplied) return; // evita doppio patch
-  ET.__ccS2WheelShimApplied = true;
+  if (ET.__ccS2PassiveShimApplied) return;
+  ET.__ccS2PassiveShimApplied = true;
+
+  // ✅ Modalità: STRICT = forza passive:true sempre (warning zero)
+  //    SAFE   = imposta passive:true solo se non specificato (warning quasi-zero, zero rotture)
+  var FORCE_STRICT = true; // <— cambia a false se mai servisse (1 riga)
 
   var orig = ET.addEventListener;
-  ET.addEventListener = function(type, listener, options){
-    if (type === 'wheel') {
-      var skip = document.documentElement.classList.contains('cc-no-passive-wheel');
-      if (!skip) {
+  var PASSIVE_TYPES = { wheel: 1, touchstart: 1, touchmove: 1 };
+
+  ET.addEventListener = function (type, listener, options) {
+    if (PASSIVE_TYPES[type]) {
+      if (FORCE_STRICT) {
+        // forza SEMPRE passive:true, qualunque cosa chieda il chiamante
+        if (options == null) {
+          options = { passive: true };
+        } else if (typeof options === 'boolean') {
+          options = { capture: !!options, passive: true };
+        } else if (typeof options === 'object') {
+          options = Object.assign({}, options, { passive: true });
+        }
+      } else {
+        // SAFE: setta passive:true solo se non specificato
         if (options == null) {
           options = { passive: true };
         } else if (typeof options === 'boolean') {

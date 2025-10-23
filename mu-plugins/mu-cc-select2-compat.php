@@ -10,7 +10,7 @@
  *  Plugin Name:  CodeCorn™ Select2 Compat
  *  Plugin URI:   https://github.com/CodeCornTech/mu-cc-select2-compat
  *  Description:  Select2 vendorizzata no-conflict per WordPress + Elementor . Init istantaneo , anti-flicker , hook popup / AJAX .
- *  Version:      1.1.70
+ *  Version:      1.1.71
  *  Author:       CodeCorn™ Technology
  *  Author URI:   https://github.com/fgirolami29
  *  License:      MIT
@@ -22,7 +22,7 @@
  *  Domain Path:  /languages
  * 
  *  @package CodeCorn\Select2Compat
- *  @since   1.1.70
+ *  @since   1.1.71
  */
 
 if (!defined('ABSPATH'))
@@ -30,7 +30,7 @@ if (!defined('ABSPATH'))
 
 final class CC_S2
 {
-    public const VER = '1.1.70';
+    public const VER = '1.1.71';
     public const VENDOR_VER = '4.0.13';
 
     private const H_CSS = 'cc-s2-css';
@@ -49,7 +49,12 @@ final class CC_S2
     {
         // Pre-paint : classe anti-flicker + preload asset
         add_action('wp_head', [__CLASS__, 'head_critical'], 0);
-
+        
+        // paracadute per curtains passive wheel listeners
+        // add_action('wp_head', function () {
+        //     echo "<script>document.documentElement.classList.add('cc-passive-touch');</script>\n";
+        // }, 1);
+        
         // Enqueue in HEAD con priorità alta
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue'], 5);
         add_action('elementor/editor/after_enqueue_scripts', [__CLASS__, 'enqueue'], 5);

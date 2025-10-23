@@ -73,7 +73,11 @@
     }
     //prettier-ignore
     const fb_it ={ errorLoading: function () { return 'Impossibile caricare i risultati.'; }, inputTooLong: function (a) { var n = a.input.length - a.maximum; return 'Cancella ' + n + ' caratter' + (n > 1 ? 'i' : 'e'); }, inputTooShort: function (a) { var n = a.minimum - a.input.length; return 'Inserisci ancora ' + n + ' caratter' + (n > 1 ? 'i' : 'e'); }, loadingMore: function () { return 'Carico altri risultati…'; }, maximumSelected: function (a) { return 'Puoi selezionare al massimo ' + a.maximum + ' elementi'; }, noResults: function () { return 'Nessun risultato'; }, searching: function () { return 'Ricerca…'; }, removeAllItems: function () { return 'Rimuovi tutti gli elementi'; }, };
-
+    const df_set = {
+        placeholder: 'Scegli un valore',
+        containerCssClass: 'cc-s2-container',
+        dropdownCssClass: 'cc-s2-dropdown',
+    };
     function enhance(el) {
         if (!isReady() || !el || INited.has(el) || el.classList.contains('select2-hidden-accessible')) return;
         var $el = $(el);
@@ -92,12 +96,12 @@
 
         var opts = {
             width: '100%',
-            placeholder: ph || '',
+            placeholder: ph || df_set['placeholder'],
             allowClear: !!ph,
             closeOnSelect: !$el.prop('multiple'),
             dropdownParent: getDropdownParent(el),
-            containerCssClass: $el.data('container-css') || 'cc-s2-container',
-            dropdownCssClass: $el.data('dropdown-css') || 'cc-s2-dropdown',
+            containerCssClass: $el.data('container-css') || df_set['containerCssClass'],
+            dropdownCssClass: $el.data('dropdown-css') || df_set['dropdownCssClass'],
             language: langPref,
         };
 
@@ -232,12 +236,12 @@
 
                 var opts = {
                     width: '100%',
-                    placeholder: ph || '',
+                    placeholder: ph || df_set['placeholder'],
                     allowClear: !!ph,
                     closeOnSelect: !$s.prop('multiple'),
                     dropdownParent: getDropdownParent(this),
-                    containerCssClass: $s.data('container-css') || null,
-                    dropdownCssClass: $s.data('dropdown-css') || 'cc-s2-dropdown',
+                    containerCssClass: $s.data('container-css') || df_set['containerCssClass'],
+                    dropdownCssClass: $s.data('dropdown-css') || df_set['dropdownCssClass'],
                     language: langPref,
                 };
 

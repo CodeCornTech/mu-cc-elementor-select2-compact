@@ -1,6 +1,7 @@
-# 🧩 CodeCorn™ MU – Select2 Compat
+# 🧩 CodeCorn™ MU – Select2 Compat `v1.1.71`
 
-**Version:** 1.1.70  
+
+**Version:** 1.1.71  
 **Author:** [CodeCorn™ Technology](https://github.com/CodeCornTech)  
 **License:** MIT  
 **Repository:** [github.com/CodeCornTech/mu-cc-select2-compat](https://github.com/CodeCornTech/mu-cc-select2-compat)
@@ -181,7 +182,7 @@ Accessible via `window.CC_S2_META`:
 ```js
 {
   plugin:  "CodeCorn™ Select2 Compat",
-  version: "1.1.70",
+  version: "1.1.71",
   vendor:  "4.0.13"
 }
 ```
@@ -201,7 +202,23 @@ Accessible via `window.CC_S2_META`:
 
 ---
 
-## 📝 License
+### 🧰 Load Order
+
+```
+[first.js] → [select2.full.min.js] → [pre.js] → [init.js]
+```
+
+## Ensures the passive shim precedes vendor load and `$.fn.ccSelect2` is ready for Elementor hooks.
+
+### 📝 License
 
 MIT — © CodeCorn™ Technology
-Maintained with ❤️ by [Federico Girolami](https://github.com/fgirolami29)
+
+---
+
+### ❤️ Maintainer
+
+**Federico Girolami** — [@fgirolami29](https://github.com/fgirolami29)
+Maintained under **CodeCorn™ Technology**
+
+---
